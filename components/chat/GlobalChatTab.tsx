@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useChatStore } from '@/store/chatStore'
 import { MessageBubble } from './MessageBubble'
@@ -13,15 +13,15 @@ interface GlobalChatTabProps {
 
 export function GlobalChatTab({ userId }: GlobalChatTabProps) {
   const { globalMessages, setGlobalMessages, addGlobalMessage } = useChatStore()
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
   const bottomRef = useRef<HTMLDivElement>(null)
   const loadedRef = useRef(false)
 
+  // Load initial messages once
   useEffect(() => {
     if (loadedRef.current) return
     loadedRef.current = true
 
-    // Načíst posledních 50 zpráv
     const loadMessages = async () => {
       const { data } = await supabase
         .from('chat_messages')
@@ -36,8 +36,12 @@ export function GlobalChatTab({ userId }: GlobalChatTabProps) {
     }
 
     loadMessages()
+  }, [supabase, setGlobalMessages])
 
-    // Realtime subscription
+  // Realtime subscription (separate effect, stable deps)
+  useEffect(() => {
+    const addMsg = useChatStore.getState().addGlobalMessage
+
     const channel = supabase
       .channel('global-chat')
       .on(
@@ -50,17 +54,16 @@ export function GlobalChatTab({ userId }: GlobalChatTabProps) {
         },
         async (payload) => {
           const msg = payload.new
-          // Načíst data uživatele
           const { data: userData } = await supabase
             .from('users')
             .select('nickname, avatar_url')
             .eq('id', msg.user_id)
             .single()
 
-          addGlobalMessage({
+          useChatStore.getState().addGlobalMessage({
             ...msg,
             users: userData,
-          } as Parameters<typeof addGlobalMessage>[0])
+          } as Parameters<typeof addMsg>[0])
         }
       )
       .subscribe()
@@ -68,7 +71,7 @@ export function GlobalChatTab({ userId }: GlobalChatTabProps) {
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [supabase, setGlobalMessages, addGlobalMessage])
+  }, [supabase])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })

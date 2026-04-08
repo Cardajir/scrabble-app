@@ -1,12 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useChatStore } from '@/store/chatStore'
 
 export function useGlobalChat(userId: string) {
-  const { addGlobalMessage, incrementUnread, isOpen, activeTab } = useChatStore()
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   useEffect(() => {
     const channel = supabase
@@ -22,11 +21,11 @@ export function useGlobalChat(userId: string) {
             .eq('id', msg.user_id)
             .single()
 
-          addGlobalMessage({ ...msg, users: userData } as Parameters<typeof addGlobalMessage>[0])
+          const store = useChatStore.getState()
+          store.addGlobalMessage({ ...msg, users: userData } as Parameters<typeof store.addGlobalMessage>[0])
 
-          // Inkrementovat unread pokud chat není otevřen na globální záložce
-          if (!isOpen || activeTab !== 'global') {
-            if (msg.user_id !== userId) incrementUnread()
+          if (!store.isOpen || store.activeTab !== 'global') {
+            if (msg.user_id !== userId) store.incrementUnread()
           }
         }
       )
@@ -35,12 +34,11 @@ export function useGlobalChat(userId: string) {
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [userId, supabase, addGlobalMessage, incrementUnread, isOpen, activeTab])
+  }, [userId, supabase])
 }
 
 export function useDMNotifications(userId: string) {
-  const { incrementUnread, isOpen, activeTab } = useChatStore()
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   useEffect(() => {
     const channel = supabase
@@ -52,7 +50,6 @@ export function useDMNotifications(userId: string) {
           const msg = payload.new
           if (msg.sender_id === userId) return
 
-          // Ověřit, že je zpráva v vlákně, jehož je user účastníkem
           const { data: thread } = await supabase
             .from('direct_message_threads')
             .select('id')
@@ -60,8 +57,9 @@ export function useDMNotifications(userId: string) {
             .or(`participant1_id.eq.${userId},participant2_id.eq.${userId}`)
             .single()
 
-          if (thread && (!isOpen || activeTab !== 'dm')) {
-            incrementUnread()
+          const store = useChatStore.getState()
+          if (thread && (!store.isOpen || store.activeTab !== 'dm')) {
+            store.incrementUnread()
           }
         }
       )
@@ -70,5 +68,5 @@ export function useDMNotifications(userId: string) {
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [userId, supabase, incrementUnread, isOpen, activeTab])
+  }, [userId, supabase])
 }

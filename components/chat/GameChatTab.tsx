@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { useChatStore } from '@/store/chatStore'
+import { useChatStore, type ChatMessage } from '@/store/chatStore'
 import { MessageBubble } from './MessageBubble'
 import { MessageInput } from './MessageInput'
 import { toast } from 'sonner'
@@ -13,12 +13,13 @@ interface GameChatTabProps {
 }
 
 export function GameChatTab({ gameId, userId }: GameChatTabProps) {
-  const { gameMessages, setGameMessages, addGameMessage } = useChatStore()
-  const supabase = createClient()
+  const { gameMessages } = useChatStore()
+  const supabase = useMemo(() => createClient(), [])
   const bottomRef = useRef<HTMLDivElement>(null)
   const messages = gameMessages[gameId] ?? []
   const loadedRef = useRef(false)
 
+  // Load initial messages once
   useEffect(() => {
     if (loadedRef.current) return
     loadedRef.current = true
@@ -32,11 +33,14 @@ export function GameChatTab({ gameId, userId }: GameChatTabProps) {
         .limit(50)
 
       if (data) {
-        setGameMessages(gameId, data.reverse() as Parameters<typeof setGameMessages>[1])
+        useChatStore.getState().setGameMessages(gameId, data.reverse() as ChatMessage[])
       }
     }
     load()
+  }, [gameId, supabase])
 
+  // Realtime subscription
+  useEffect(() => {
     const channel = supabase
       .channel(`game-chat:${gameId}`)
       .on(
@@ -55,7 +59,7 @@ export function GameChatTab({ gameId, userId }: GameChatTabProps) {
             .eq('id', msg.user_id)
             .single()
 
-          addGameMessage(gameId, { ...msg, users: userData } as Parameters<typeof addGameMessage>[1])
+          useChatStore.getState().addGameMessage(gameId, { ...msg, users: userData } as ChatMessage)
         }
       )
       .subscribe()
@@ -63,7 +67,7 @@ export function GameChatTab({ gameId, userId }: GameChatTabProps) {
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [gameId, supabase, setGameMessages, addGameMessage])
+  }, [gameId, supabase])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
