@@ -163,7 +163,7 @@ export function GameBoardClient({
       const targetId = String(over.id)
 
       if (targetId.startsWith('board-cell-')) {
-        const [, , , rowStr, colStr] = targetId.split('-')
+        const [, , rowStr, colStr] = targetId.split('-')
         const row = parseInt(rowStr)
         const col = parseInt(colStr)
 
@@ -382,6 +382,26 @@ export function GameBoardClient({
               </div>
             </div>
 
+            {/* Controls */}
+            {isPlayer && (
+              <div className="space-y-2">
+                <MoveControls
+                  hasPending={pendingTiles.length > 0}
+                  isMyTurn={isMyTurn}
+                  isSubmitting={submitting}
+                  isValidating={validating}
+                  validationError={validationError}
+                  onConfirm={handleConfirmMove}
+                  onCancel={clearPendingTiles}
+                  onPass={handlePass}
+                  onResign={handleResign}
+                  gameId={gameId}
+                  rack={rack}
+                  tileBagSize={tileBagSize}
+                />
+              </div>
+            )}
+
             {/* Last moves */}
             {moves.length > 0 && (
               <div className="card-gaming rounded-xl p-3 flex-1 min-h-0">
@@ -409,7 +429,7 @@ export function GameBoardClient({
             )}
           </aside>
 
-          {/* Center: Board + Rack + Controls */}
+          {/* Center: Board + Rack */}
           <main className="flex-1 flex flex-col items-center min-h-0 p-4">
             {/* Board — takes maximum available space */}
             <div className="flex-1 w-full flex items-center justify-center min-h-0">
@@ -424,28 +444,14 @@ export function GameBoardClient({
               </div>
             </div>
 
-            {/* Rack + Controls — pinned below board */}
+            {/* Rack — pinned below board */}
             {isPlayer && (
-              <div className="w-full max-w-2xl shrink-0 mt-3 space-y-2">
+              <div className="w-full max-w-2xl shrink-0 mt-3">
                 <Rack
                   tiles={rack.filter(
                     (t) => !pendingTiles.some((pt) => pt.tile.id === t.id)
                   )}
                   pendingTileIds={new Set(pendingTiles.map((pt) => pt.tile.id))}
-                />
-                <MoveControls
-                  hasPending={pendingTiles.length > 0}
-                  isMyTurn={isMyTurn}
-                  isSubmitting={submitting}
-                  isValidating={validating}
-                  validationError={validationError}
-                  onConfirm={handleConfirmMove}
-                  onCancel={clearPendingTiles}
-                  onPass={handlePass}
-                  onResign={handleResign}
-                  gameId={gameId}
-                  rack={rack}
-                  tileBagSize={tileBagSize}
                 />
               </div>
             )}

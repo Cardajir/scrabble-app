@@ -37,8 +37,7 @@ export function MoveControls({
   const [showExchange, setShowExchange] = useState(false)
 
   return (
-    <>
-      {/* Validation error */}
+    <div className="card-gaming rounded-xl p-3 space-y-2">
       {validationError && (
         <div className="text-xs text-destructive bg-destructive/10 border border-destructive/20 px-3 py-2 rounded-lg flex items-center gap-2">
           <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -48,47 +47,46 @@ export function MoveControls({
         </div>
       )}
 
-      {/* Main action row: confirm + cancel / exchange + pass */}
-      <div className="flex items-center gap-2 justify-start">
-        {hasPending ? (
-          <>
-            <Button
-              className="h-12 px-8 text-base font-bold neon-purple cursor-pointer"
-              onClick={onConfirm}
-              disabled={!isMyTurn || isSubmitting || isValidating || !!validationError}
-            >
-              {isSubmitting ? 'Potvrzuji...' : isValidating ? 'Ověřuji...' : 'Potvrdit tah'}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={onCancel}
-              disabled={isSubmitting}
-              className="h-12 px-4 border-primary/20 hover:border-primary/50 cursor-pointer"
-            >
-              Zrušit
-            </Button>
-          </>
-        ) : isMyTurn ? (
-          <>
-            <Button
-              variant="outline"
-              onClick={() => setShowExchange(true)}
-              disabled={isSubmitting || tileBagSize < 7}
-              className="h-12 px-6 text-sm border-primary/20 hover:border-primary/50 cursor-pointer"
-            >
-              Vyměnit písmena
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={onPass}
-              disabled={isSubmitting}
-              className="h-12 px-4 text-sm text-muted-foreground hover:text-foreground cursor-pointer"
-            >
-              Přeskočit
-            </Button>
-          </>
-        ) : null}
-      </div>
+      {hasPending ? (
+        <div className="flex flex-col gap-2">
+          <Button
+            className="w-full h-11 text-sm font-bold neon-purple cursor-pointer"
+            onClick={onConfirm}
+            disabled={!isMyTurn || isSubmitting || isValidating || !!validationError}
+          >
+            {isSubmitting ? 'Potvrzuji...' : isValidating ? 'Ověřuji...' : 'Potvrdit tah'}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={onCancel}
+            disabled={isSubmitting}
+            className="w-full h-9 text-sm border-primary/20 hover:border-primary/50 cursor-pointer"
+          >
+            Zrušit
+          </Button>
+        </div>
+      ) : isMyTurn ? (
+        <div className="flex flex-col gap-2">
+          <Button
+            variant="outline"
+            onClick={() => setShowExchange(true)}
+            disabled={isSubmitting || tileBagSize < 7}
+            className="w-full h-9 text-sm border-primary/20 hover:border-primary/50 cursor-pointer"
+          >
+            Vyměnit písmena
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={onPass}
+            disabled={isSubmitting}
+            className="w-full h-9 text-sm text-muted-foreground hover:text-foreground cursor-pointer"
+          >
+            Přeskočit tah
+          </Button>
+        </div>
+      ) : (
+        <p className="text-xs text-muted-foreground text-center py-1">Čekáte na soupeře...</p>
+      )}
 
       {showExchange && (
         <TileExchangeModal
@@ -98,6 +96,6 @@ export function MoveControls({
           onExchanged={() => setShowExchange(false)}
         />
       )}
-    </>
+    </div>
   )
 }
