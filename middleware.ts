@@ -1,16 +1,22 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import type { Database } from '@/types/supabase'
 
 const protectedRoutes = ['/ucet', '/hry']
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseKey) {
+    return supabaseResponse
+  }
+
+  const supabase = createServerClient(
+    supabaseUrl,
+    supabaseKey,
     {
       cookies: {
         getAll() {
@@ -29,7 +35,6 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session – nutné volat v middleware pro správnou správu sessions
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -46,7 +51,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl)
   }
 
-  // Přesměrování přihlášeného uživatele ze stránek pro nepřihlášené
   if (
     user &&
     (pathname === '/prihlaseni' || pathname === '/registrace')
