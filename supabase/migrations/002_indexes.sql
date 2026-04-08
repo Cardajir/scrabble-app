@@ -1,0 +1,12 @@
+create index on public.elo_history(user_id);
+create index on public.games(status, type);
+create index on public.game_players(game_id);
+create index on public.game_players(user_id);
+create index on public.game_moves(game_id);
+create index on public.chat_messages(game_id, created_at);
+create index on public.chat_messages(created_at) where game_id is null;
+create index on public.direct_messages(thread_id, created_at);
+create index on public.dictionary_words(word);
+create index on public.notifications(user_id, is_read);
+create index on public.ranked_queue(status, elo_rating);
+create index on public.game_invites(to_user_id, status);

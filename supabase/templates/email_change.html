@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Změna e-mailu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Chakra+Petch:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body style="margin: 0; padding: 0; background-color: #F5F3FF; font-family: 'Chakra Petch', Arial, sans-serif; color: #0F0F23;">
+  <!-- Grid background pattern -->
+  <div style="
+    background-color: #F5F3FF;
+    background-image:
+      linear-gradient(rgba(124, 58, 237, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124, 58, 237, 0.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+    padding: 40px 16px;
+  ">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width: 520px; margin: 0 auto;">
+      <tr>
+        <td>
+          <!-- Header -->
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 8px;">
+            <tr>
+              <td align="center" style="padding: 24px 0 16px;">
+                <h1 style="
+                  font-family: 'Russo One', Arial, sans-serif;
+                  font-size: 24px;
+                  letter-spacing: 0.04em;
+                  color: #7C3AED;
+                  margin: 0;
+                ">ČESKÁ SCRABBLE</h1>
+              </td>
+            </tr>
+          </table>
+
+          <!-- Card -->
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="
+            background: #FFFFFF;
+            border: 1px solid rgba(124, 58, 237, 0.15);
+            border-radius: 16px;
+            box-shadow: 0 2px 20px rgba(124, 58, 237, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+          ">
+            <tr>
+              <td style="padding: 36px 32px;">
+                <div style="width: 48px; height: 4px; background: linear-gradient(90deg, #7C3AED, #A78BFA); border-radius: 2px; margin-bottom: 24px;"></div>
+
+                <h2 style="
+                  font-family: 'Russo One', Arial, sans-serif;
+                  font-size: 20px;
+                  color: #0F0F23;
+                  margin: 0 0 12px;
+                  letter-spacing: 0.02em;
+                ">Změna e-mailové adresy</h2>
+
+                <p style="
+                  font-size: 15px;
+                  line-height: 1.6;
+                  color: #64748B;
+                  margin: 0 0 28px;
+                ">
+                  Obdrželi jsme žádost o změnu e-mailové adresy vašeho účtu.
+                  Klikněte na tlačítko níže pro potvrzení nové adresy.
+                </p>
+
+                <!-- CTA Button -->
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td align="center" style="padding: 4px 0 28px;">
+                      <a href="{{ .ConfirmationURL }}" target="_blank" style="
+                        display: inline-block;
+                        background: #7C3AED;
+                        color: #FFFFFF;
+                        font-family: 'Chakra Petch', Arial, sans-serif;
+                        font-weight: 600;
+                        font-size: 15px;
+                        text-decoration: none;
+                        padding: 14px 36px;
+                        border-radius: 10px;
+                        box-shadow: 0 0 12px rgba(124, 58, 237, 0.28), 0 4px 16px rgba(124, 58, 237, 0.12);
+                        letter-spacing: 0.02em;
+                      ">Potvrdit změnu</a>
+                    </td>
+                  </tr>
+                </table>
+
+                <div style="height: 1px; background: rgba(124, 58, 237, 0.12); margin-bottom: 20px;"></div>
+
+                <p style="
+                  font-size: 13px;
+                  line-height: 1.5;
+                  color: #94A3B8;
+                  margin: 0;
+                ">
+                  Pokud tlačítko nefunguje, zkopírujte tento odkaz do prohlížeče:<br />
+                  <a href="{{ .ConfirmationURL }}" style="color: #7C3AED; word-break: break-all; text-decoration: none;">{{ .ConfirmationURL }}</a>
+                </p>
+              </td>
+            </tr>
+          </table>
+
+          <!-- Footer -->
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top: 24px;">
+            <tr>
+              <td align="center" style="padding: 8px 0 24px;">
+                <p style="
+                  font-size: 12px;
+                  color: #94A3B8;
+                  margin: 0;
+                  line-height: 1.5;
+                ">
+                  Pokud jste nepožádali o změnu e-mailu,<br />
+                  kontaktujte nás prosím co nejdříve.
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

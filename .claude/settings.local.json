@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp:*)",
+      "Bash(python skills/ui-ux-pro-max/scripts/search.py \"board game scrabble multiplayer gaming dark light mode responsive\" --design-system -p \"Česká Scrabble\" -f markdown)",
+      "Bash(python .claude/skills/ui-ux-pro-max/scripts/search.py \"board game scrabble multiplayer gaming dark light mode responsive desktop mobile\" --design-system -p \"Česká Scrabble\" -f markdown)",
+      "Bash(supabase:*)",
+      "Bash(SUPABASE_PAT=sbp_94aa1f8fca7ae01ecb6792047d3deb8ca948e514 bash scripts/apply-email-templates.sh)",
+      "Bash(SUPABASE_PAT=sbp_94aa1f8fca7ae01ecb6792047d3deb8ca948e514 python scripts/apply-email-templates.py)",
+      "Bash(python -c ':*)",
+      "Bash(winget install:*)",
+      "Read(//c/Program Files/GitHub CLI//**)",
+      "Read(//c/Program Files \\(x86\\)/**)",
+      "Read(//c/Users/**)",
+      "Bash(export PATH=\"/c/Program Files/GitHub CLI/:$PATH\")",
+      "Bash(gh --version)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo:*)",
+      "Bash(npx plugins:*)",
+      "Bash(npx vercel:*)",
+      "Bash(ls:*)",
+      "mcp__supabase__list_projects",
+      "mcp__supabase__search_docs",
+      "Bash(SUPABASE_PAT=sbp_81c1fb271555d13b98ed5f2b6ae75b1a6ee5d741 python:*)",
+      "mcp__supabase__apply_migration",
+      "Bash(python3:*)",
+      "Bash(python:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git add:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "supabase"
+  ]
+}
