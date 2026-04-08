@@ -49,11 +49,11 @@ export function MoveControls({
       )}
 
       {/* Main action row: confirm + cancel / exchange + pass */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 justify-start">
         {hasPending ? (
           <>
             <Button
-              className="flex-1 h-12 text-base font-bold neon-purple cursor-pointer"
+              className="h-12 px-8 text-base font-bold neon-purple cursor-pointer"
               onClick={onConfirm}
               disabled={!isMyTurn || isSubmitting || isValidating || !!validationError}
             >
@@ -74,7 +74,7 @@ export function MoveControls({
               variant="outline"
               onClick={() => setShowExchange(true)}
               disabled={isSubmitting || tileBagSize < 7}
-              className="flex-1 h-12 text-sm border-primary/20 hover:border-primary/50 cursor-pointer"
+              className="h-12 px-6 text-sm border-primary/20 hover:border-primary/50 cursor-pointer"
             >
               Vyměnit písmena
             </Button>
