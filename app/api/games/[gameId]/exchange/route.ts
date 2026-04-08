@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { validateExchange, drawTiles } from '@/lib/game/tiles'
 import type { Tile } from '@/lib/game/tiles'
+import type { Json } from '@/types/supabase'
 
 const schema = z.object({
   tileIds: z.array(z.string()).min(1).max(7),
@@ -30,8 +31,12 @@ export async function POST(
     .eq('id', gameId)
     .single()
 
-  if (!game || game.status !== 'IN_PROGRESS') {
-    return NextResponse.json({ error: 'Hra není aktivní' }, { status: 400 })
+  if (!game) {
+    return NextResponse.json({ error: 'Hra nenalezena' }, { status: 404 })
+  }
+
+  if (game.status !== 'IN_PROGRESS') {
+    return NextResponse.json({ error: `Hra není aktivní (status: ${game.status})` }, { status: 400 })
   }
 
   const players = (game.game_players as unknown as { user_id: string; rack: Tile[]; turn_order: number }[])
@@ -49,15 +54,12 @@ export async function POST(
     return NextResponse.json({ error: validation.error }, { status: 400 })
   }
 
-  // Odebrat vybraná písmena ze stojánku
   const exchangedTiles = rack.filter((t) => tileIds.includes(t.id))
   const remainingRack = rack.filter((t) => !tileIds.includes(t.id))
 
-  // Vylosovat nová písmena z pytlíku
   const { drawn, remaining } = drawTiles(tileBag, tileIds.length)
   const newRack = [...remainingRack, ...drawn]
 
-  // Vrátit vyměněná písmena do pytlíku (zamíchat)
   const newBag = [...remaining, ...exchangedTiles].sort(() => Math.random() - 0.5)
 
   const nextPlayerIndex = (game.current_player_index + 1) % players.length
@@ -67,19 +69,19 @@ export async function POST(
       game_id: gameId,
       user_id: user.id,
       move_type: 'EXCHANGE',
-      tiles: JSON.stringify(exchangedTiles),
+      tiles: exchangedTiles as unknown as Json,
       score: 0,
-      rack_after: JSON.stringify(newRack),
+      rack_after: newRack as unknown as Json,
     }),
     supabase
       .from('game_players')
-      .update({ rack: JSON.stringify(newRack) })
+      .update({ rack: newRack as unknown as Json })
       .eq('game_id', gameId)
       .eq('user_id', user.id),
     supabase
       .from('games')
       .update({
-        tile_bag: JSON.stringify(newBag),
+        tile_bag: newBag as unknown as Json,
         current_player_index: nextPlayerIndex,
         turn_number: game.turn_number + 1,
       })

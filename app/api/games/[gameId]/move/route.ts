@@ -121,24 +121,24 @@ export async function POST(
     game_id: gameId,
     user_id: user.id,
     move_type: 'PLACE',
-    tiles: JSON.stringify(tilesToPlace) as unknown as Json,
-    words: JSON.stringify(validation.words) as unknown as Json,
+    tiles: tilesToPlace as unknown as Json,
+    words: validation.words as unknown as Json,
     score: validation.score,
-    rack_after: JSON.stringify(finalRack) as unknown as Json,
+    rack_after: finalRack as unknown as Json,
   })
 
   // Aktualizovat stav hráče
   const newScore = currentPlayer.score + validation.score
   await supabase
     .from('game_players')
-    .update({ rack: JSON.stringify(finalRack) as unknown as Json, score: newScore })
+    .update({ rack: finalRack as unknown as Json, score: newScore })
     .eq('game_id', gameId)
     .eq('user_id', user.id)
 
   // Aktualizovat stav hry
   await supabase.from('games').update({
     board_state: validation.newBoardState as unknown as Json,
-    tile_bag: JSON.stringify(remaining) as unknown as Json,
+    tile_bag: remaining as unknown as Json,
     current_player_index: nextPlayerIndex,
     turn_number: game.turn_number + 1,
     status: newStatus,

@@ -40,7 +40,7 @@ export async function POST(
       user_id: user.id,
       move_type: 'RESIGN',
       score: 0,
-      rack_after: JSON.stringify(myPlayer.rack),
+      rack_after: myPlayer.rack as unknown as import('@/types/supabase').Json,
     }),
     supabase
       .from('game_players')
