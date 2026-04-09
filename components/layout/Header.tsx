@@ -37,7 +37,7 @@ export function Header({ user }: HeaderProps) {
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut()
     if (error) {
-      toast.error('Chyba při odhlášení')
+      toast.error('Chyba pri odhlaseni')
       return
     }
     router.push('/')
@@ -45,30 +45,30 @@ export function Header({ user }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-primary/20 bg-background/90 backdrop-blur-md transition-colors duration-200">
+    <header className="sticky top-0 z-50 w-full glass-panel transition-colors duration-200">
       <div className="container flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/40 flex items-center justify-center group-hover:neon-purple transition-all">
+            <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center group-hover:bg-primary/12 transition-all">
               <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
               </svg>
             </div>
-            <span className="font-heading text-base tracking-wider hidden sm:block">ČESKÁ SCRABBLE</span>
+            <span className="font-bold text-sm tracking-wide hidden sm:block">Ceska Scrabble</span>
           </Link>
 
           {user && (
             <nav className="hidden md:flex items-center gap-1">
               <Link
                 href="/hry/custom"
-                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-primary/10 rounded-lg transition-colors"
+                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
               >
                 Custom hry
               </Link>
               <Link
                 href="/hry/ranked"
-                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-primary/10 rounded-lg transition-colors"
+                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
               >
                 Ranked
               </Link>
@@ -82,16 +82,14 @@ export function Header({ user }: HeaderProps) {
           {mounted && (
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-lg hover:bg-primary/10 transition-colors text-muted-foreground hover:text-foreground cursor-pointer"
-              aria-label={theme === 'dark' ? 'Přepnout na světlý režim' : 'Přepnout na tmavý režim'}
+              className="p-2 rounded-lg hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground cursor-pointer"
+              aria-label={theme === 'dark' ? 'Prepnout na svetly rezim' : 'Prepnout na tmavy rezim'}
             >
               {theme === 'dark' ? (
-                /* Sun icon */
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
                 </svg>
               ) : (
-                /* Moon icon */
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
                 </svg>
@@ -102,8 +100,8 @@ export function Header({ user }: HeaderProps) {
           {user ? (
             <>
               {/* ELO badge */}
-              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-lg bg-primary/10 border border-primary/20">
-                <svg className="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-lg bg-primary/8">
+                <svg className="w-3.5 h-3.5 text-[#8B6914]" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clipRule="evenodd" />
                 </svg>
                 <span className="font-mono text-xs font-semibold text-primary">{user.elo_rating}</span>
@@ -112,18 +110,18 @@ export function Header({ user }: HeaderProps) {
               {/* User menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger
-                  className="relative rounded-full ring-2 ring-primary/30 hover:ring-primary/60 transition-all outline-none cursor-pointer"
-                  aria-label="Menu uživatele"
+                  className="relative rounded-full ring-2 ring-primary/20 hover:ring-primary/40 transition-all outline-none cursor-pointer"
+                  aria-label="Menu uzivatele"
                 >
                   <Avatar className="h-9 w-9">
                     <AvatarImage src={user.avatar_url ?? undefined} />
-                    <AvatarFallback className="bg-primary/20 text-primary text-sm font-bold">
+                    <AvatarFallback className="bg-accent text-primary text-sm font-bold">
                       {user.nickname.slice(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-52 bg-popover border-primary/20">
-                  <div className="px-3 py-2 border-b border-primary/10">
+                <DropdownMenuContent align="end" className="w-52">
+                  <div className="px-3 py-2 border-b">
                     <p className="text-sm font-semibold truncate">{user.nickname}</p>
                     <p className="text-xs text-muted-foreground font-mono">{user.elo_rating} ELO</p>
                   </div>
@@ -131,7 +129,7 @@ export function Header({ user }: HeaderProps) {
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                     </svg>
-                    Můj účet
+                    Muj ucet
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer" onClick={() => router.push('/hry/custom')}>
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -145,7 +143,7 @@ export function Header({ user }: HeaderProps) {
                     </svg>
                     Ranked
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-primary/10" />
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem
                     className="text-destructive focus:text-destructive focus:bg-destructive/10 cursor-pointer flex items-center gap-2"
                     onClick={handleSignOut}
@@ -153,7 +151,7 @@ export function Header({ user }: HeaderProps) {
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                     </svg>
-                    Odhlásit se
+                    Odhlasit se
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -161,9 +159,9 @@ export function Header({ user }: HeaderProps) {
           ) : (
             <>
               <LinkButton variant="ghost" href="/prihlaseni" className="text-muted-foreground hover:text-foreground">
-                Přihlásit se
+                Prihlasit se
               </LinkButton>
-              <LinkButton href="/registrace" className="neon-purple">
+              <LinkButton href="/registrace" className="glow-primary">
                 Registrovat se
               </LinkButton>
             </>

@@ -76,7 +76,6 @@ export function GameBoardClient({
   const [validating, setValidating] = useState(false)
   const [validationError, setValidationError] = useState<string | null>(null)
 
-  // Inicializace stavu
   useEffect(() => {
     setGame(initialGame)
     setPlayers(initialPlayers)
@@ -88,7 +87,6 @@ export function GameBoardClient({
     }
   }, [initialGame, initialPlayers, currentUser.id, setGame, setPlayers, setBoardState, setRack])
 
-  // Supabase Realtime subscriptions
   useEffect(() => {
     const gameChannel = supabase
       .channel(`game:${gameId}`)
@@ -140,7 +138,6 @@ export function GameBoardClient({
     }
   }, [gameId, currentUser.id, supabase, setGame, setPlayers, setBoardState, setRack, clearPendingTiles])
 
-  // DnD sensory
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 8 } })
@@ -188,7 +185,6 @@ export function GameBoardClient({
     [rack, pendingTiles, addPendingTile, removePendingTile, setActiveDragId]
   )
 
-  // Validace tahu
   useEffect(() => {
     if (pendingTiles.length === 0) {
       setValidationError(null)
@@ -226,12 +222,12 @@ export function GameBoardClient({
 
       if (!res.ok) {
         const err = await res.json()
-        toast.error(err.error ?? 'Chyba při potvrzení tahu')
+        toast.error(err.error ?? 'Chyba pri potvrzeni tahu')
         return
       }
 
       const result = await res.json()
-      toast.success(`Tah potvrzen! +${result.score} bodů`)
+      toast.success(`Tah potvrzen! +${result.score} bodu`)
       clearPendingTiles()
     } finally {
       setSubmitting(false)
@@ -243,23 +239,23 @@ export function GameBoardClient({
     try {
       const res = await fetch(`/api/games/${gameId}/pass`, { method: 'POST' })
       if (!res.ok) {
-        toast.error('Chyba při přeskočení tahu')
+        toast.error('Chyba pri preskoceni tahu')
         return
       }
       clearPendingTiles()
-      toast.info('Tah přeskočen')
+      toast.info('Tah preskozen')
     } finally {
       setSubmitting(false)
     }
   }
 
   const handleResign = async () => {
-    if (!confirm('Opravdu chcete vzdát hru?')) return
+    if (!confirm('Opravdu chcete vzdat hru?')) return
     setSubmitting(true)
     try {
       const res = await fetch(`/api/games/${gameId}/resign`, { method: 'POST' })
       if (!res.ok) {
-        toast.error('Chyba při vzdávání hry')
+        toast.error('Chyba pri vzdavani hry')
         return
       }
       toast.info('Hru jste vzdali')
@@ -287,17 +283,17 @@ export function GameBoardClient({
   if (currentGame.status === 'FINISHED') {
     const winner = currentPlayers.find((p) => p.user_id === currentGame.winner_id)
     return (
-      <div className="min-h-screen grid-bg flex flex-col items-center justify-center px-4 py-16 text-center">
-        <div className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-yellow-500/10 border border-yellow-500/30 mb-6">
-          <svg className="w-12 h-12 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+      <div className="min-h-screen paper-bg flex flex-col items-center justify-center px-4 py-16 text-center">
+        <div className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-[#8B6914]/10 mb-6">
+          <svg className="w-12 h-12 text-[#8B6914]" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clipRule="evenodd" />
           </svg>
         </div>
-        <h1 className="text-5xl font-heading text-neon mb-4">HRA SKONČILA!</h1>
+        <h1 className="text-5xl font-bold tracking-tight mb-4">Hra skoncila!</h1>
         <p className="text-xl text-muted-foreground mb-10">
           {winner
-            ? `Vítěz: ${winner.users?.nickname}`
-            : 'Hra skončila remízou'}
+            ? `Vitez: ${winner.users?.nickname}`
+            : 'Hra skoncila remizou'}
         </p>
         <div className="w-full max-w-lg">
           <ScoreBoard players={currentPlayers} currentUserId={currentUser.id} />
@@ -314,17 +310,17 @@ export function GameBoardClient({
       onDragEnd={handleDragEnd}
     >
       <div className="h-screen bg-background flex flex-col overflow-hidden">
-        {/* ── Top bar ── */}
-        <header className="flex items-center justify-between px-4 py-2 border-b border-primary/10 shrink-0">
+        {/* Top bar */}
+        <header className="flex items-center justify-between px-4 py-2 border-b shrink-0">
           <div className="flex items-center gap-3">
-            <h1 className="text-lg font-heading tracking-wide">
-              {currentGame.name ?? 'SCRABBLE'}
+            <h1 className="text-lg font-bold tracking-tight">
+              {currentGame.name ?? 'Scrabble'}
             </h1>
             <span className={`text-xs flex items-center gap-1.5 ${isMyTurn ? 'text-primary font-medium' : 'text-muted-foreground'}`}>
               {isMyTurn ? (
                 <>
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                  Váš tah
+                  Vas tah
                 </>
               ) : (
                 <>
@@ -346,20 +342,20 @@ export function GameBoardClient({
             <button
               onClick={handleResign}
               disabled={submitting}
-              className="text-xs text-[#F43F5E]/70 hover:text-[#F43F5E] hover:bg-[#F43F5E]/10 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+              className="text-xs text-destructive/70 hover:text-destructive hover:bg-destructive/8 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
             >
-              Vzdát hru
+              Vzdat hru
             </button>
           </div>
         </header>
 
-        {/* ── Main content ── */}
+        {/* Main content */}
         <div className="flex-1 flex min-h-0">
           {/* Left panel */}
-          <aside className="w-64 xl:w-72 shrink-0 border-r border-primary/10 p-3 flex flex-col gap-3 overflow-y-auto">
+          <aside className="w-64 xl:w-72 shrink-0 border-r p-3 flex flex-col gap-3 overflow-y-auto">
             {/* Score */}
             <div>
-              <h3 className="font-heading text-[10px] tracking-[0.2em] text-muted-foreground mb-2 px-1">SKÓRE</h3>
+              <h3 className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground mb-2 px-1 uppercase">Skore</h3>
               <ScoreBoard
                 players={currentPlayers}
                 currentUserId={currentUser.id}
@@ -368,14 +364,14 @@ export function GameBoardClient({
             </div>
 
             {/* Game info */}
-            <div className="card-gaming rounded-xl p-3 space-y-2">
-              <h3 className="font-heading text-[10px] tracking-[0.2em] text-muted-foreground">INFO</h3>
+            <div className="card-clubhouse rounded-xl p-3 space-y-2">
+              <h3 className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase">Info</h3>
               <div className="grid grid-cols-2 gap-2">
-                <div className="bg-primary/5 rounded-lg px-3 py-2">
+                <div className="bg-secondary rounded-lg px-3 py-2">
                   <p className="text-[10px] text-muted-foreground">V pytli</p>
                   <p className="text-lg font-mono font-bold">{tileBagSize}</p>
                 </div>
-                <div className="bg-primary/5 rounded-lg px-3 py-2">
+                <div className="bg-secondary rounded-lg px-3 py-2">
                   <p className="text-[10px] text-muted-foreground">Tah</p>
                   <p className="text-lg font-mono font-bold">{moves.length + 1}</p>
                 </div>
@@ -404,21 +400,21 @@ export function GameBoardClient({
 
             {/* Last moves */}
             {moves.length > 0 && (
-              <div className="card-gaming rounded-xl p-3 flex-1 min-h-0">
-                <h3 className="font-heading text-[10px] tracking-[0.2em] text-muted-foreground mb-2">POSLEDNÍ TAHY</h3>
+              <div className="card-clubhouse rounded-xl p-3 flex-1 min-h-0">
+                <h3 className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground mb-2 uppercase">Posledni tahy</h3>
                 <div className="space-y-1 overflow-y-auto max-h-48">
                   {moves.slice(0, 15).map((move) => {
                     const player = currentPlayers.find((p) => p.user_id === move.user_id)
                     return (
                       <div key={move.id} className="text-xs flex justify-between py-0.5">
                         <span className="text-muted-foreground truncate max-w-[120px]">{player?.users?.nickname}</span>
-                        <span className={`font-mono font-semibold ${move.move_type === 'PLACE' ? 'text-green-400' : 'text-muted-foreground'}`}>
+                        <span className={`font-mono font-semibold ${move.move_type === 'PLACE' ? 'text-primary' : 'text-muted-foreground'}`}>
                           {move.move_type === 'PLACE'
                             ? `+${move.score}`
                             : move.move_type === 'PASS'
-                            ? 'přeskočil'
+                            ? 'preskocil'
                             : move.move_type === 'EXCHANGE'
-                            ? 'vyměnil'
+                            ? 'vymenil'
                             : 'vzdal'}
                         </span>
                       </div>
@@ -431,7 +427,6 @@ export function GameBoardClient({
 
           {/* Center: Board + Rack */}
           <main className="flex-1 flex flex-col items-center min-h-0 p-4">
-            {/* Board — takes maximum available space */}
             <div className="flex-1 w-full flex items-center justify-center min-h-0">
               <div className="max-h-full max-w-full" style={{ aspectRatio: '1/1', height: '100%' }}>
                 <Board
@@ -444,7 +439,6 @@ export function GameBoardClient({
               </div>
             </div>
 
-            {/* Rack — pinned below board */}
             {isPlayer && (
               <div className="w-full max-w-2xl shrink-0 mt-3">
                 <Rack
@@ -459,7 +453,6 @@ export function GameBoardClient({
         </div>
       </div>
 
-      {/* Drag overlay */}
       <DragOverlay>
         {activeTile && (
           <Tile

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Russo_One, Chakra_Petch, Geist_Mono } from 'next/font/google'
+import { Plus_Jakarta_Sans, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/components/layout/Header'
 import { ChatBubble } from '@/components/layout/ChatBubble'
@@ -7,14 +7,8 @@ import { Toaster } from '@/components/ui/sonner'
 import { createClient } from '@/lib/supabase/server'
 import { Providers } from './providers'
 
-const russo = Russo_One({
-  variable: '--font-russo',
-  subsets: ['latin'],
-  weight: '400',
-})
-
-const chakra = Chakra_Petch({
-  variable: '--font-chakra',
+const jakarta = Plus_Jakarta_Sans({
+  variable: '--font-jakarta',
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
 })
@@ -25,8 +19,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Česká Scrabble – Online hra',
-  description: 'Online multiplayer Scrabble pro česky mluvící hráče.',
+  title: 'Ceska Scrabble - Online hra',
+  description: 'Online multiplayer Scrabble pro cesky mluvici hrace.',
 }
 
 export default async function RootLayout({
@@ -50,12 +44,11 @@ export default async function RootLayout({
     if (data) {
       userData = data
     } else {
-      // Fallback – záznam v public.users ještě neexistuje (trigger se nestačil spustit)
       userData = {
         id: user.id,
         nickname: (user.user_metadata?.nickname as string | undefined)
           ?? user.email?.split('@')[0]
-          ?? 'Hráč',
+          ?? 'Hrac',
         elo_rating: 1200,
         avatar_url: null as string | null,
       }
@@ -63,7 +56,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="cs" className={`${russo.variable} ${chakra.variable} ${geistMono.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="cs" className={`${jakarta.variable} ${geistMono.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full flex flex-col">
         <Providers>
           <Header user={userData} />

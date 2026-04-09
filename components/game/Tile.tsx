@@ -31,16 +31,16 @@ export function Tile({ tile, isDragging, isPlaced, isPending }: TileProps) {
       {...attributes}
       className={cn(
         'relative flex items-center justify-center rounded cursor-grab active:cursor-grabbing select-none',
-        'w-10 h-10 text-base font-bold shadow-sm border',
-        'bg-amber-100 border-amber-400 text-amber-900',
-        isPending && 'ring-2 ring-blue-500 bg-blue-50 border-blue-400',
-        isPlaced && !isPending && 'bg-amber-200 border-amber-500 cursor-default',
-        (dragging || isDragging) && 'opacity-50 z-50 scale-110',
-        tile.isBlank && 'bg-yellow-50 border-yellow-400'
+        'w-10 h-10 text-base font-bold',
+        'bg-[#f4f4ef] text-primary shadow-[0_1px_3px_rgba(26,28,25,0.06)]',
+        isPending && 'ring-2 ring-secondary-foreground bg-accent',
+        isPlaced && !isPending && 'bg-[#e8e8e4] cursor-default',
+        (dragging || isDragging) && 'opacity-50 z-50 scale-110 shadow-[0_8px_32px_rgba(26,28,25,0.12)]',
+        tile.isBlank && 'bg-accent/60'
       )}
     >
       <span className="text-sm font-bold leading-none">{displayLetter}</span>
-      <span className="absolute bottom-0.5 right-0.5 text-[9px] font-normal leading-none">
+      <span className="absolute bottom-0.5 right-0.5 text-[9px] font-normal leading-none text-muted-foreground">
         {tile.value}
       </span>
     </div>

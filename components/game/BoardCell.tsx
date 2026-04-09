@@ -13,11 +13,11 @@ interface BoardCellProps {
 }
 
 const BONUS_STYLES: Record<NonNullable<BonusType>, { bg: string; label: string }> = {
-  TW: { bg: 'bg-red-600 text-white', label: '3×S' },
-  DW: { bg: 'bg-rose-400 dark:bg-rose-500 text-white', label: '2×S' },
-  TL: { bg: 'bg-blue-600 text-white', label: '3×P' },
-  DL: { bg: 'bg-sky-400 dark:bg-sky-500 text-white', label: '2×P' },
-  STAR: { bg: 'bg-yellow-400 text-yellow-900', label: '★' },
+  TW: { bg: 'bg-[#ba1a1a]/40 text-[#ba1a1a] dark:bg-[#ff897d]/20 dark:text-[#ff897d]', label: '3xS' },
+  DW: { bg: 'bg-[#ba1a1a]/20 text-[#ba1a1a]/80 dark:bg-[#ff897d]/12 dark:text-[#ff897d]/80', label: '2xS' },
+  TL: { bg: 'bg-[#005da7]/35 text-[#005da7] dark:bg-[#9fc6ff]/20 dark:text-[#9fc6ff]', label: '3xP' },
+  DL: { bg: 'bg-[#005da7]/20 text-[#005da7]/80 dark:bg-[#9fc6ff]/12 dark:text-[#9fc6ff]/80', label: '2xP' },
+  STAR: { bg: 'bg-[#8B6914]/20 text-[#8B6914] dark:bg-[#8B6914]/25 dark:text-[#d4a84b]', label: '\u2605' },
 }
 
 export function BoardCell({ row, col, bonus, tile, pendingTile }: BoardCellProps) {
@@ -35,24 +35,24 @@ export function BoardCell({ row, col, bonus, tile, pendingTile }: BoardCellProps
       className={cn(
         'relative aspect-square flex items-center justify-center',
         'transition-colors duration-100',
-        isEmpty && isOver && 'bg-green-300 dark:bg-green-600/60 ring-1 ring-green-400',
-        isEmpty && !isOver && !bonusStyle && 'bg-amber-50 dark:bg-[#2a2a50]',
+        isEmpty && isOver && 'bg-accent ring-1 ring-secondary-foreground/40',
+        isEmpty && !isOver && !bonusStyle && 'bg-[#f4f4ef] dark:bg-[#1e2320]',
         isEmpty && !isOver && bonusStyle && bonusStyle.bg,
-        tile && 'bg-amber-100 dark:bg-amber-200',
-        pendingTile && 'bg-blue-100 dark:bg-blue-400/40 ring-1 ring-blue-400',
+        tile && 'bg-[#e8e8e4] dark:bg-[#e8e8e4]',
+        pendingTile && 'bg-accent ring-1 ring-secondary-foreground/50',
       )}
     >
       {isEmpty && bonusStyle && (
-        <span className="text-[clamp(6px,1.8cqi,11px)] font-bold leading-none text-center select-none drop-shadow-sm">
+        <span className="text-[clamp(6px,1.8cqi,11px)] font-bold leading-none text-center select-none">
           {bonusStyle.label}
         </span>
       )}
       {(tile || pendingTile) && (
         <div className="relative flex items-center justify-center w-full h-full">
-          <span className="text-[clamp(8px,2cqi,14px)] font-bold text-amber-900 dark:text-amber-900">
+          <span className="text-[clamp(8px,2cqi,14px)] font-bold text-primary">
             {tile ? tile.letter : pendingTile?.letter}
           </span>
-          <span className="absolute bottom-0 right-0.5 text-[clamp(5px,1cqi,8px)] text-amber-700 dark:text-amber-800">
+          <span className="absolute bottom-0 right-0.5 text-[clamp(5px,1cqi,8px)] text-muted-foreground">
             {tile ? tile.value : pendingTile?.value}
           </span>
         </div>

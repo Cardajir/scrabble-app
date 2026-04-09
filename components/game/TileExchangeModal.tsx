@@ -54,11 +54,11 @@ export function TileExchangeModal({
 
       if (!res.ok) {
         const err = await res.json()
-        toast.error(err.error ?? 'Chyba při výměně')
+        toast.error(err.error ?? 'Chyba pri vymene')
         return
       }
 
-      toast.success('Písmena vyměněna')
+      toast.success('Pismena vymenena')
       onExchanged()
     } finally {
       setLoading(false)
@@ -69,9 +69,9 @@ export function TileExchangeModal({
     <Dialog open onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Výměna písmen</DialogTitle>
+          <DialogTitle>Vymena pismen</DialogTitle>
           <DialogDescription>
-            Vyberte písmena, která chcete vrátit do pytlíku. Dostanete stejný počet nových.
+            Vyberte pismena, ktera chcete vratit do pytliku. Dostanete stejny pocet novych.
           </DialogDescription>
         </DialogHeader>
 
@@ -81,30 +81,30 @@ export function TileExchangeModal({
               key={tile.id}
               onClick={() => toggleTile(tile.id)}
               className={cn(
-                'relative flex items-center justify-center rounded w-12 h-12 text-lg font-bold border-2 transition-all',
-                'bg-amber-100 border-amber-400 text-amber-900 cursor-pointer',
-                selected.has(tile.id) && 'ring-2 ring-red-500 bg-red-50 border-red-400 scale-110'
+                'relative flex items-center justify-center rounded w-12 h-12 text-lg font-bold transition-all',
+                'bg-secondary text-primary cursor-pointer',
+                selected.has(tile.id) && 'ring-2 ring-destructive bg-destructive/8 scale-110'
               )}
             >
               {tile.isBlank ? '?' : tile.letter}
-              <span className="absolute bottom-0.5 right-0.5 text-[9px]">{tile.value}</span>
+              <span className="absolute bottom-0.5 right-0.5 text-[9px] text-muted-foreground">{tile.value}</span>
             </button>
           ))}
         </div>
 
         <p className="text-sm text-muted-foreground text-center">
-          Vybráno: {selected.size} písmen
+          Vybrano: {selected.size} pismen
         </p>
 
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            Zrušit
+            Zrusit
           </Button>
           <Button
             onClick={handleExchange}
             disabled={selected.size === 0 || loading}
           >
-            {loading ? 'Vyměňuji...' : `Vyměnit ${selected.size} ${selected.size === 1 ? 'písmeno' : 'písmen'}`}
+            {loading ? 'Vymenuji...' : `Vymenit ${selected.size} ${selected.size === 1 ? 'pismeno' : 'pismen'}`}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -12,16 +12,16 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 const schema = z.object({
-  email: z.string().email('Zadejte platný e-mail'),
+  email: z.string().email('Zadejte platny e-mail'),
   nickname: z
     .string()
-    .min(3, 'Přezdívka musí mít alespoň 3 znaky')
-    .max(20, 'Přezdívka může mít nejvýše 20 znaků')
-    .regex(/^[a-zA-Z0-9_-]+$/, 'Jen písmena, čísla, _ a -'),
-  password: z.string().min(6, 'Heslo musí mít alespoň 6 znaků'),
+    .min(3, 'Prezdivka musi mit alespon 3 znaky')
+    .max(20, 'Prezdivka muze mit nejvyse 20 znaku')
+    .regex(/^[a-zA-Z0-9_-]+$/, 'Jen pismena, cisla, _ a -'),
+  password: z.string().min(6, 'Heslo musi mit alespon 6 znaku'),
   confirmPassword: z.string(),
 }).refine((d) => d.password === d.confirmPassword, {
-  message: 'Hesla se neshodují',
+  message: 'Hesla se neshoduji',
   path: ['confirmPassword'],
 })
 
@@ -52,7 +52,7 @@ export default function RegistracePage() {
 
       if (error) {
         if (error.message.toLowerCase().includes('already registered')) {
-          toast.error('Tento e-mail je již zaregistrován')
+          toast.error('Tento e-mail je jiz zaregistrovan')
         } else {
           toast.error(error.message)
         }
@@ -67,20 +67,20 @@ export default function RegistracePage() {
 
   if (sent) {
     return (
-      <div className="min-h-screen grid-bg flex items-center justify-center px-4">
+      <div className="min-h-screen paper-bg flex items-center justify-center px-4">
         <div className="relative w-full max-w-md text-center">
-          <div className="card-gaming rounded-2xl p-10">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-green-500/10 border border-green-500/30 mb-6 mx-auto">
-              <svg className="w-8 h-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="card-clubhouse rounded-2xl p-10">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/8 mb-6 mx-auto">
+              <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
               </svg>
             </div>
-            <h2 className="text-2xl font-heading mb-3">ZKONTROLUJTE E-MAIL</h2>
+            <h2 className="text-2xl font-bold mb-3">Zkontrolujte e-mail</h2>
             <p className="text-muted-foreground text-sm leading-relaxed mb-8">
-              Poslali jsme vám potvrzovací odkaz. Klikněte na něj a účet se aktivuje.
+              Poslali jsme vam potvrzovaci odkaz. Kliknete na nej a ucet se aktivuje.
             </p>
             <Link href="/prihlaseni" className="text-sm text-primary hover:underline">
-              Zpět na přihlášení
+              Zpet na prihlaseni
             </Link>
           </div>
         </div>
@@ -89,26 +89,26 @@ export default function RegistracePage() {
   }
 
   return (
-    <div className="min-h-screen grid-bg flex items-center justify-center px-4 py-16">
-      {/* Glow */}
+    <div className="min-h-screen paper-bg flex items-center justify-center px-4 py-16">
+      {/* Ambient glow */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-purple-600/10 blur-3xl" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-accent/30 blur-3xl" />
       </div>
 
       <div className="relative w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 border border-primary/30 mb-4 neon-purple">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/8 mb-4">
             <svg className="w-7 h-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
             </svg>
           </div>
-          <h1 className="text-3xl font-heading text-neon">REGISTROVAT SE</h1>
-          <p className="text-muted-foreground text-sm mt-2">Vytvořte si účet a začněte hrát</p>
+          <h1 className="text-3xl font-bold tracking-tight">Registrovat se</h1>
+          <p className="text-muted-foreground text-sm mt-2">Vytvorte si ucet a zacnete hrat</p>
         </div>
 
         {/* Card */}
-        <div className="card-gaming rounded-2xl p-8">
+        <div className="card-clubhouse rounded-2xl p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium">E-mail</Label>
@@ -118,19 +118,17 @@ export default function RegistracePage() {
                 placeholder="vas@email.cz"
                 {...register('email')}
                 disabled={loading}
-                className="bg-background/50 border-primary/20 focus:border-primary"
               />
               {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="nickname" className="text-sm font-medium">Přezdívka</Label>
+              <Label htmlFor="nickname" className="text-sm font-medium">Prezdivka</Label>
               <Input
                 id="nickname"
-                placeholder="VášNick123"
+                placeholder="VasNick123"
                 {...register('nickname')}
                 disabled={loading}
-                className="bg-background/50 border-primary/20 focus:border-primary"
               />
               {errors.nickname && <p className="text-xs text-destructive">{errors.nickname.message}</p>}
             </div>
@@ -140,29 +138,27 @@ export default function RegistracePage() {
               <Input
                 id="password"
                 type="password"
-                placeholder="min. 6 znaků"
+                placeholder="min. 6 znaku"
                 {...register('password')}
                 disabled={loading}
-                className="bg-background/50 border-primary/20 focus:border-primary"
               />
               {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-sm font-medium">Potvrzení hesla</Label>
+              <Label htmlFor="confirmPassword" className="text-sm font-medium">Potvrzeni hesla</Label>
               <Input
                 id="confirmPassword"
                 type="password"
                 {...register('confirmPassword')}
                 disabled={loading}
-                className="bg-background/50 border-primary/20 focus:border-primary"
               />
               {errors.confirmPassword && <p className="text-xs text-destructive">{errors.confirmPassword.message}</p>}
             </div>
 
             <Button
               type="submit"
-              className="w-full neon-purple mt-2"
+              className="w-full glow-primary mt-2"
               disabled={loading}
             >
               {loading ? (
@@ -178,9 +174,9 @@ export default function RegistracePage() {
           </form>
 
           <p className="text-center text-sm text-muted-foreground mt-6">
-            Máte již účet?{' '}
+            Mate jiz ucet?{' '}
             <Link href="/prihlaseni" className="font-medium text-primary hover:underline">
-              Přihlásit se
+              Prihlasit se
             </Link>
           </p>
         </div>

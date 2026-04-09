@@ -17,11 +17,11 @@ export function Rack({ tiles, pendingTileIds }: RackProps) {
     <div
       ref={setNodeRef}
       className={cn(
-        'px-4 py-3 border-2 rounded-xl transition-colors duration-150',
-        'bg-amber-50/80 dark:bg-secondary/30',
+        'px-4 py-3 rounded-xl transition-colors duration-150',
+        'bg-secondary dark:bg-secondary',
         isOver
-          ? 'border-green-400 bg-green-50 dark:bg-green-900/20'
-          : 'border-amber-300/60 dark:border-primary/25'
+          ? 'bg-accent dark:bg-accent'
+          : ''
       )}
     >
       <div className="flex gap-2 justify-center">
@@ -33,7 +33,7 @@ export function Rack({ tiles, pendingTileIds }: RackProps) {
           />
         ))}
         {tiles.length === 0 && (
-          <span className="text-sm text-muted-foreground italic py-2">Prázdný stojánek</span>
+          <span className="text-sm text-muted-foreground italic py-2">Prazdny stojanek</span>
         )}
       </div>
     </div>

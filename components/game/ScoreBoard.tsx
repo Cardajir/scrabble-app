@@ -31,17 +31,16 @@ export function ScoreBoard({ players, currentUserId, currentTurnUserId }: ScoreB
             key={player.user_id}
             className={cn(
               'relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200',
-              'border',
               isCurrentTurn
-                ? 'border-primary/50 bg-primary/10 shadow-[0_0_12px_rgba(124,58,237,0.15)]'
-                : 'border-primary/10 bg-card/50',
-              isMe && !isCurrentTurn && 'border-primary/20'
+                ? 'bg-accent shadow-[0_1px_8px_rgba(1,38,31,0.08)]'
+                : 'bg-secondary/50',
+              isMe && !isCurrentTurn && 'bg-secondary'
             )}
           >
             {/* Rank badge */}
             <div className={cn(
               'flex items-center justify-center w-6 h-6 rounded-full text-[10px] font-bold shrink-0',
-              index === 0 ? 'bg-yellow-500/20 text-yellow-400' : 'bg-primary/10 text-muted-foreground'
+              index === 0 ? 'bg-[#8B6914]/15 text-[#8B6914]' : 'bg-muted text-muted-foreground'
             )}>
               {index + 1}
             </div>
@@ -50,10 +49,10 @@ export function ScoreBoard({ players, currentUserId, currentTurnUserId }: ScoreB
             <div className="relative shrink-0">
               <Avatar className={cn(
                 'h-9 w-9 ring-2 transition-all',
-                isCurrentTurn ? 'ring-primary' : 'ring-primary/20'
+                isCurrentTurn ? 'ring-primary' : 'ring-transparent'
               )}>
                 <AvatarImage src={player.users?.avatar_url ?? undefined} />
-                <AvatarFallback className="text-xs bg-primary/20 text-primary font-bold">
+                <AvatarFallback className="text-xs bg-accent text-primary font-bold">
                   {player.users?.nickname?.slice(0, 2).toUpperCase() ?? '??'}
                 </AvatarFallback>
               </Avatar>
@@ -65,7 +64,7 @@ export function ScoreBoard({ players, currentUserId, currentTurnUserId }: ScoreB
             {/* Name */}
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium leading-none truncate">
-                {player.users?.nickname ?? 'Neznámý'}
+                {player.users?.nickname ?? 'Neznamy'}
                 {isMe && <span className="text-[10px] text-primary ml-1">(vy)</span>}
               </p>
               {isCurrentTurn && (
@@ -77,7 +76,7 @@ export function ScoreBoard({ players, currentUserId, currentTurnUserId }: ScoreB
             <div className={cn(
               'font-mono text-lg font-bold tabular-nums px-3 py-1 rounded-lg shrink-0',
               isMe
-                ? 'bg-primary/20 text-primary'
+                ? 'bg-primary/8 text-primary'
                 : 'text-foreground'
             )}>
               {player.score}

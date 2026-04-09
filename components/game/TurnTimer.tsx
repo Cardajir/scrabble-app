@@ -41,7 +41,7 @@ export function TurnTimer({ limit, isActive, onExpire }: TurnTimerProps) {
       <div
         className={cn(
           'text-2xl font-mono font-bold',
-          isUrgent && isActive ? 'text-destructive animate-pulse' : percentage > 20 ? 'text-[#2B6B3F] dark:text-[#4ade80]' : 'text-yellow-500'
+          isUrgent && isActive ? 'text-destructive animate-pulse' : percentage > 20 ? 'text-primary' : 'text-[#8B6914]'
         )}
       >
         {remaining}s
@@ -50,7 +50,7 @@ export function TurnTimer({ limit, isActive, onExpire }: TurnTimerProps) {
         <div
           className={cn(
             'h-full rounded-full transition-all duration-1000',
-            percentage > 50 ? 'bg-[#2B6B3F]' : percentage > 20 ? 'bg-yellow-500' : 'bg-red-500'
+            percentage > 50 ? 'bg-primary' : percentage > 20 ? 'bg-[#8B6914]' : 'bg-destructive'
           )}
           style={{ width: `${percentage}%` }}
         />

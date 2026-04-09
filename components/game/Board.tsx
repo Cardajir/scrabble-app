@@ -25,7 +25,7 @@ export function Board({ boardState, pendingTiles }: BoardProps) {
   return (
     <div className="w-full aspect-square">
       <div
-        className="grid h-full w-full border border-amber-800/30 dark:border-primary/25 bg-amber-800/20 dark:bg-primary/15 gap-px rounded-lg"
+        className="grid h-full w-full bg-primary/8 dark:bg-primary/15 gap-px rounded-lg"
         style={{ gridTemplateColumns: `repeat(${BOARD_SIZE}, minmax(0, 1fr))` }}
       >
         {Array.from({ length: BOARD_SIZE }, (_, row) =>
